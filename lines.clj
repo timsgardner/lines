@@ -1,5 +1,13 @@
 (ns lines.lines
-  (import [UnityEngine Vector3 LineRenderer GameObject]))
+  (:require [arcadia.core :as arc])
+  (:import [UnityEngine Vector3 LineRenderer GameObject]))
+
+(defmacro ^:private def-compget [name typesym]
+  (let [objsym (gensym "obj_")]
+    `(defn ~name ~(with-meta [objsym] {:tag typesym})
+       (arc/get-component ~objsym ~typesym))))
+
+(def-compget line-renderer UnityEngine.LineRenderer)
 
 (defn- cludfn
   ([] nil)
